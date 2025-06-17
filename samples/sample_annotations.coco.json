@@ -1,0 +1,55 @@
+{
+  "info": {
+    "year": "2022",
+    "version": "3",
+    "description": "Synthetic COCO annotation",
+    "contributor": "",
+    "url": "",
+    "date_created": "2022-12-26T14:28:37+00:00"
+  },
+  "licenses": [
+    {
+      "id": 1,
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "name": "CC BY 4.0"
+    }
+  ],
+  "categories": [
+    {
+      "id": 0,
+      "name": "cancer",
+      "supercategory": "none"
+    },
+    {
+      "id": 1,
+      "name": "Negative",
+      "supercategory": "cancer"
+    },
+    {
+      "id": 2,
+      "name": "Positive",
+      "supercategory": "cancer"
+    }
+  ],
+  "images": [
+    {
+      "id": 0,
+      "license": 1,
+      "file_name": "sample_image_1.jpg",
+      "height": 640,
+      "width": 640,
+      "date_captured": "2022-12-26T14:28:37+00:00"
+    }
+  ],
+  "annotations": [
+    {
+      "id": 0,
+      "image_id": 0,
+      "category_id": 2,
+      "bbox": [100.5, 150.2, 200.0, 180.0],
+      "area": 36000,
+      "segmentation": [],
+      "iscrowd": 0
+    }
+  ]
+}

@@ -1,18 +1,19 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
-import { ThemeToggle } from "./theme-toggle"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 const navigation = [
   { name: "Screening", href: "/" },
   { name: "Database", href: "/database" },
+  { name: "Labeling", href: "/labeling" },
   { name: "About", href: "/about" },
-]
+];
 
 export function Navbar() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -22,9 +23,13 @@ export function Navbar() {
             {/* Logo placeholder */}
             <Link href="/" className="flex items-center space-x-2">
               <div className="h-8 w-8 bg-primary rounded-md flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">AI</span>
+                <span className="text-primary-foreground font-bold text-sm">
+                  AI
+                </span>
               </div>
-              <span className="font-semibold text-lg hidden sm:block">cerv.AI</span>
+              <span className="font-semibold text-lg hidden sm:block">
+                cerv.AI
+              </span>
             </Link>
 
             {/* Navigation links */}
@@ -35,7 +40,9 @@ export function Navbar() {
                   href={item.href}
                   className={cn(
                     "text-sm font-medium transition-colors hover:text-primary",
-                    pathname === item.href ? "text-primary" : "text-muted-foreground",
+                    pathname === item.href
+                      ? "text-primary"
+                      : "text-muted-foreground"
                   )}
                 >
                   {item.name}
@@ -62,7 +69,9 @@ export function Navbar() {
                 href={item.href}
                 className={cn(
                   "text-sm font-medium transition-colors hover:text-primary",
-                  pathname === item.href ? "text-primary" : "text-muted-foreground",
+                  pathname === item.href
+                    ? "text-primary"
+                    : "text-muted-foreground"
                 )}
               >
                 {item.name}
@@ -72,5 +81,5 @@ export function Navbar() {
         </div>
       </div>
     </nav>
-  )
+  );
 }
