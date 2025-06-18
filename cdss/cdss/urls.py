@@ -23,6 +23,7 @@ from forms.views import upload_image, list_forms
 from django.conf import settings
 from django.conf.urls.static import static
 from forms.views import upload_image, list_forms,case_detail
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 
 # Define the router directly in urls.py
@@ -42,6 +43,13 @@ urlpatterns = [
     path("case/<int:case_id>/", case_detail, name="case_detail"),  # This handles both GET and DELETE
     path('admin/', admin.site.urls),
     path('api/', include('forms.urls')),  # This includes your annotation endpoints
+    
+    # Schema generation endpoint
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Optional: Swagger UI
+    path("api/docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
+    # Optional: ReDoc UI
+    path("api/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
