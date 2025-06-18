@@ -1,12 +1,16 @@
+//app/page.tsx
+
 "use client";
 
 import { useRef } from "react";
 import { Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function ScreeningPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -35,11 +39,28 @@ export default function ScreeningPage() {
 
       if (contentType.includes("application/json")) {
         const data = await res.json();
+
+        // Store image data in sessionStorage for the labeling page
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imageDataUrl = e.target?.result as string;
+          sessionStorage.setItem("currentImage", imageDataUrl);
+          sessionStorage.setItem("currentImageName", file.name);
+          sessionStorage.setItem("caseId", data.CaseID);
+          sessionStorage.setItem("patientId", data.PatientID);
+        };
+        reader.readAsDataURL(file);
+
         toast.success(
           `Upload complete: CASE ${data.CaseID}, Patient (${data.PatientID})`
         );
+
+        // Navigate to labeling page after a short delay
+        setTimeout(() => {
+          router.push("/labeling");
+        }, 1500);
       } else {
-        const text = await res.text(); // Read only once!
+        const text = await res.text();
         console.error("Unexpected response format:", text);
         toast.error("Upload failed. See console for details.");
       }

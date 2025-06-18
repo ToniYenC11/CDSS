@@ -1,3 +1,5 @@
+//app/database/page.tsx
+
 "use client";
 
 import Link from "next/link";
@@ -19,6 +21,9 @@ interface CaseData {
   Date: string;
   Diagnosis: string;
   Confidence: string;
+  annotations?: Array<{
+    label: "positive" | "negative";
+  }>;
 }
 
 function getConfidenceBadge(confidence: string) {
@@ -32,6 +37,17 @@ function formatConfidence(confidence: string) {
   // Remove % if it exists and ensure it's properly formatted
   const cleaned = confidence.replace("%", "");
   return `${cleaned}%`;
+}
+
+function getFirstAnnotationLabel(
+  annotations?: Array<{ label: "positive" | "negative" }>
+) {
+  if (!annotations || annotations.length === 0) {
+    return "No annotations";
+  }
+  return (
+    annotations[0].label.charAt(0).toUpperCase() + annotations[0].label.slice(1)
+  );
 }
 
 export default function DatabasePage() {
@@ -150,7 +166,9 @@ export default function DatabasePage() {
                       {case_.PatientID}
                     </TableCell>
                     <TableCell>{case_.Date}</TableCell>
-                    <TableCell>{case_.Diagnosis}</TableCell>
+                    <TableCell>
+                      {getFirstAnnotationLabel(case_.annotations)}
+                    </TableCell>
                     <TableCell>
                       <Badge variant={getConfidenceBadge(case_.Confidence)}>
                         {formatConfidence(case_.Confidence)}

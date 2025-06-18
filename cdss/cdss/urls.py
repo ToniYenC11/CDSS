@@ -40,7 +40,10 @@ urlpatterns = [
     path("upload/", upload_image, name="upload_image"),
     path("list/", list_forms, name="list_forms"),
     path("case/<int:case_id>/", case_detail, name="case_detail"),  # This handles both GET and DELETE
-    
+    path('admin/', admin.site.urls),
+    path('api/', include('forms.urls')),  # This includes your annotation endpoints
 ]
-
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
