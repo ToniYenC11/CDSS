@@ -16,6 +16,27 @@ from datetime import datetime
 from django.utils import timezone
 from rest_framework.decorators import api_view
 
+def get_diagnosis_from_annotations(case_id_str):
+    """Determines diagnosis based on the latest annotations for a case."""
+    try:
+        case_image = CaseImage.objects.get(case_id=case_id_str)
+        # Get the latest annotation session for this image
+        latest_annotation = case_image.annotations.order_by('-created_at').first()
+        if not latest_annotation:
+            return "Not Annotated"
+
+        # Check for any positive bounding boxes
+        if latest_annotation.bounding_boxes.filter(label='positive').exists():
+            return "Positive"
+        # If there are boxes, but none are positive, they must all be negative
+        elif latest_annotation.bounding_boxes.exists():
+            return "Negative"
+        else:
+            # This case means an Annotation object exists but has no BoundingBox objects
+            return "Not Annotated"
+    except CaseImage.DoesNotExist:
+        return "Not Annotated"
+
 @csrf_exempt
 def upload_image(request):
     if request.method == 'POST':
@@ -36,20 +57,24 @@ def upload_image(request):
         })
 
     return JsonResponse({'error': 'Invalid method'}, status=405)
+
 def list_forms(request):
     forms = Forms.objects.all().order_by('-Date')
-    return JsonResponse({
-        'forms': [
-            {
-                'CaseID': form.CaseID,
-                'PatientID': form.PatientID,
-                'Date': str(form.Date),
-                'Diagnosis': form.Diagnosis,
-                'Confidence': form.Confidence,
-            }
-            for form in forms
-        ]
-    })
+    
+    response_data = []
+    for form in forms:
+        # Calculate diagnosis based on annotations
+        diagnosis = get_diagnosis_from_annotations(str(form.CaseID))
+        
+        response_data.append({
+            'CaseID': form.CaseID,
+            'PatientID': form.PatientID,
+            'Date': str(form.Date),
+            'Diagnosis': diagnosis,
+            'Confidence': form.Confidence,
+        })
+
+    return JsonResponse({'forms': response_data})
 
 @csrf_exempt
 def case_detail(request, case_id):
@@ -57,13 +82,45 @@ def case_detail(request, case_id):
     if request.method == 'GET':
         try:
             form = get_object_or_404(Forms, CaseID=case_id)
+            
+            # Calculate diagnosis based on annotations
+            diagnosis = get_diagnosis_from_annotations(str(form.CaseID))
+
+            annotations_data = []
+            try:
+                # The case_id in CaseImage is a string representation of Forms.CaseID
+                case_image = CaseImage.objects.get(case_id=str(form.CaseID))
+                # Get the latest annotation session for this image
+                latest_annotation = case_image.annotations.order_by('-created_at').first()
+
+                if latest_annotation:
+                    # Get all bounding boxes for this annotation
+                    for box in latest_annotation.bounding_boxes.all():
+                        annotations_data.append({
+                            'id': box.box_id,
+                            'x': box.x,
+                            'y': box.y,
+                            'width': box.width,
+                            'height': box.height,
+                            'label': box.label,
+                            'relativeX': box.relative_x,
+                            'relativeY': box.relative_y,
+                            'relativeWidth': box.relative_width,
+                            'relativeHeight': box.relative_height,
+                        })
+            except CaseImage.DoesNotExist:
+                # No annotations exist for this case, which is a valid state.
+                pass
+
             return JsonResponse({
                 'CaseID': form.CaseID,
                 'PatientID': form.PatientID,
                 'Date': str(form.Date),
-                'Diagnosis': form.Diagnosis,
+                'Diagnosis': diagnosis, # Use calculated diagnosis
                 'Confidence': form.Confidence,
                 'Image': form.Image.url if form.Image else None,
+                'imageName': form.Image.name.split('/')[-1] if form.Image else None,
+                'annotations': annotations_data,
             })
         except Forms.DoesNotExist:
             return JsonResponse({'error': 'Case not found'}, status=404)
@@ -71,6 +128,15 @@ def case_detail(request, case_id):
     elif request.method == 'DELETE':
         try:
             form = get_object_or_404(Forms, CaseID=case_id)
+            
+            # Find and delete related CaseImage, which will cascade to Annotations and BoundingBoxes
+            try:
+                # The case_id in CaseImage is a string representation of Forms.CaseID
+                case_image = CaseImage.objects.get(case_id=str(form.CaseID))
+                case_image.delete() # This will cascade delete Annotations and BoundingBoxes
+            except CaseImage.DoesNotExist:
+                # If no CaseImage, there are no annotations to delete.
+                pass
             
             # Delete the image file from storage if it exists
             if form.Image:
