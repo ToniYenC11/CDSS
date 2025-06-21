@@ -4,10 +4,14 @@ This is a documentation on the Clinical Diagnostic Screening System (CDSS) as pa
 
 ## Team
 **Ms. Roxanne S. Aviñante** - Project Supervisor 
+
 **Mr. Jeffrey A. Aborot** - Technical Supervisor
 
+
 **Toni Yenisei Czar S. Castañares** - Artificial Intelligence Engineer
+
 **Rafael D. Ronquillo** - Artificial Intelligence Engineer
+
 **Ken B. Horlador** - Artificial Intelligence Engineer
 
 # Table of Contents
