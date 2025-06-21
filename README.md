@@ -49,7 +49,8 @@ The Clinical Decision Support System was created to help the future training of 
 2. Acetic acid is poured and a waiting time of two (2) minutes will be observed in order to identify acetowhite areas forming around the area.
 3. The midwife will identify based from the acetowhite areas if the cervix is possibly positive for cancer or not.
 
-The test is inexpensive versus cytologic methods such as the Pap Smear Test and liquid-based cytology. It also does not augment the color of the cervix unlike the Visual Inspection with Lugol's Iodine (VLI). Here's a sample image of the annotation for the Intel-MobileODT dataset: ![image](https://github.com/user-attachments/assets/1f788670-62ee-44e0-b63d-d8f1404735e7)
+The test is inexpensive versus cytologic methods such as the Pap Smear Test and liquid-based cytology. It also does not augment the color of the cervix unlike the Visual Inspection with Lugol's Iodine (VLI). Here's a sample image of the annotation for the Intel-MobileODT dataset:
+![image](https://github.com/user-attachments/assets/1f788670-62ee-44e0-b63d-d8f1404735e7)
 
 ---
 
