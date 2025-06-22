@@ -18,10 +18,9 @@ This is a documentation on the Clinical Diagnostic Screening System (CDSS) as pa
 
 1. [About cerv.AI](#about-cervai)
 2. [About CDSS](#about-cdss)
-3. [About ImageBank](#about-imagebank)
-4. [How the CDSS and ImageBank System Works](#how-the-cdss-and-imagebank-system-works)
-5. [How the Predictions are Made](#how-the-predictions-are-made)
-6. [Recommendations for Improvement](#recommendations-for-improvement)
+3. [How the CDSS and ImageBank System Works](#how-the-cdss-and-imagebank-system-works)
+4. [How the Predictions are Made](#how-the-predictions-are-made)
+5. [Recommendations for Improvement](#recommendations-for-improvement)
 
 ---
 
@@ -53,21 +52,15 @@ The test is inexpensive versus cytologic methods such as the Pap Smear Test and 
 
 ---
 
-## About ImageBank
-
-_Write your content here about ImageBank._
-
----
-
 ## How the CDSS and ImageBank System Works
 
-_Write your content here explaining how the systems work together._
+The CDSS is integrated along with ImageBank. The two-part system aids in dataset processing for future training of improved models for detection. For more information about ImageBank, see this [link here](). In summary, ImageBank holds the database of all images and dataset of DOST-ASTI. The CDSS invokes a call to check for directories of images for specific cancer types, specifically for cervical cancer. CDSS will then load these images, where the annotation will be performed by the doctor. Finally, the system will return the annotations to ImageBank as ground truth.
 
 ---
 
 ## How the Predictions are Made
 
-_Write your content here explaining the prediction process._
+The initial predictions/annotations of the model are done through deep learning models for object detectiong. There are a total of six (6) models so far, all found within this [Github repo](github.com/ToniYenC11/cerv.AI). The best performing model, has achieved **65%** Average Precision for areas over 50%. The Github repo also contains explanations regarding the value along with other metrics and visualization of predictions.
 
 ---
 
