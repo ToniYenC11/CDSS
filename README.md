@@ -60,7 +60,7 @@ The CDSS is integrated along with ImageBank. The two-part system aids in dataset
 
 ## How the Predictions are Made
 
-The initial predictions/annotations of the model are done through deep learning models for object detectiong. There are a total of six (6) models so far, all found within this [Github repo](github.com/ToniYenC11/cerv.AI). The best performing model, has achieved **65%** Average Precision for areas over 50%. The Github repo also contains explanations regarding the value along with other metrics and visualization of predictions.
+The initial predictions/annotations of the model are done through deep learning models for object detectiong. There are a total of six (6) models so far, all found within this [Github repo](https://github.com/ToniYenC11/cerv.AI). The best performing model, has achieved **65%** Average Precision for areas over 50%. The Github repo also contains explanations regarding the value along with other metrics and visualization of predictions.
 
 ---
 
