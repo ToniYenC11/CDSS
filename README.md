@@ -66,5 +66,5 @@ The initial predictions/annotations of the model are done through deep learning 
 
 ## Recommendations for Improvement
 
-_Write your content here for suggestions and future improvements._
+- Add more comprehensiveness to the system. There are some integrations that require more responsiveness.
 
