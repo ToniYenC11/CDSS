@@ -17,7 +17,7 @@ This is a documentation on the Clinical Diagnostic Screening System (CDSS) as pa
 # Table of Contents
 
 1. [About cerv.AI](#about-cervai)
-2. [About CDSS](#about-cdss)
+2. [About CDSS and How to Deploy It](#about-cdss-and-how-to-deploy-it)
 3. [How the CDSS and ImageBank System Works](#how-the-cdss-and-imagebank-system-works)
 4. [How the Predictions are Made](#how-the-predictions-are-made)
 5. [Recommendations for Improvement](#recommendations-for-improvement)
@@ -38,7 +38,7 @@ Cervical cancer is the [fourth](https://www.who.int/news-room/fact-sheets/detail
 
 ---
 
-## About CDSS
+## About CDSS and How to Deploy It
 
 The Clinical Decision Support System was created to help the future training of the deep learning models used for the porject. Doctors can re-annotate images in the CDSS that are part of the datasets to improve the detection of models for unlabeled images. The images are cases of **Visual Insepction via Acetic Acid (VIA)**. This [study](https://pmc.ncbi.nlm.nih.gov/articles/PMC4478664/) from the National Library of Medicine provides a comprehensive explanation of the method. To recap:
 
@@ -49,6 +49,44 @@ The Clinical Decision Support System was created to help the future training of 
 The test is inexpensive versus cytologic methods such as the Pap Smear Test and liquid-based cytology. It also does not augment the color of the cervix unlike the Visual Inspection with Lugol's Iodine (VLI). Here's a sample image of the annotation for the Intel-MobileODT dataset:
 
 ![image](https://github.com/user-attachments/assets/1f788670-62ee-44e0-b63d-d8f1404735e7)
+
+### Deploying the CSS
+
+Since the project currently has all the necessary node packages, simply have `npm` in your system to run the frontend. For the backend, install `django` and `djangorestframework` as well as the `cors-headers` for it was implemented as a security feature.
+
+```bash
+pip install django djangorestframework
+```
+
+1. Clone this repository
+```bash
+git clone https://github.com/ToniYenC11/CDSS.git
+```
+
+2. Open a terminal in VS Code and run the following to start the frontend:
+```bash
+npm run dev
+```
+The website will run at `localhost::3000`. Do not close the terminal or it will send a kill command to the process, effectively closing the frontend.
+
+3. Open a new terminal and run the following:
+```bash
+python cdss/manage.py runserver 8000
+```
+The backend will run at `localhost::8000`. You can change 8000 to run it at a different port. 
+
+### Backend services
+#### Admin control panel
+Displays the different database models of the website along with their entries.
+```
+localhost::8000/admin
+```
+
+#### Docs
+Displays the docs for each database models.
+```
+localhost::8000/docs
+```
 
 ---
 
